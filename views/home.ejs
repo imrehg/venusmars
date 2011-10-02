@@ -102,9 +102,14 @@
       <!--   }); -->
       <!-- }); -->
 
+      var stopped = false;
+
       // when a status is received from the backend, add it to the page
       socket.on('friends_status', function(data) {
-        $('#loading').hide();
+        if (stopped == false) {
+          $('#loading').hide();
+          stopped = false;
+        }
         var sex = data.sender.sex;
         $('ul#'+sex).append(' \
                <li> \
@@ -155,6 +160,7 @@
         <!--     </li> -->
         <!--   </ul> -->
         <!-- </div> -->
+        <div id="loading">Please wait, loading...</div>
       </div>
     </header>
 
@@ -172,9 +178,6 @@
 
     </section>
 
-    <div id="loading">Please wait, loading...</div>
-
-    <!-- <section id="get-started"> -->
     <!--   <p>Welcome to your Facebook app, running on <span>heroku</span>!</p> -->
     <!--   <a href="http://devcenter.heroku.com/articles/facebook" class="button">Learn How to Edit This App</a> -->
     <!-- </section> -->
