@@ -193,7 +193,7 @@ header .tagline {
 #samples .list {
   float: left;
   margin-right: 7px;
-  width: 172px;
+  width: 351px;
 }
 
 #guides ul li p,
@@ -256,27 +256,34 @@ header .tagline {
 /* =samples
 --------------------------------------------- */
 #samples {
-  background-image: url("../images/samples-bg.png");
+  /* background-image: url("../images/samples-bg.png"); */
   border-bottom: 1px solid #dadada;
   border-left: 1px solid #b3b3b3;
   border-right: 1px solid #b3b3b3;
   border-top: 1px solid #fff;
 }
 
+#samples div#male {
+  background-color: lightblue;
+}
+
+#samples div#female {
+  background-color: pink;
+}
+
 #samples h3 {
-  background: url("../images/header-sketch.png") no-repeat;
   color: #646464;
   font-weight: bold;
-  font-size: 11px;
+  font-size: 14px;
   line-height: 29px;
   text-align: center;
 }
 
 #samples ul {
-  background: url("../images/picture-sketch.png") 4px 8px;
-  background-repeat: repeat-y;
-  height: 161px;
-  overflow: hidden;
+  /* background: url("../images/picture-sketch.png") 4px 8px; */
+  /* background-repeat: repeat-y; */
+  /* height: 161px; */
+  /* overflow: hidden; */
   padding-top: 8px;
 }
 
@@ -285,12 +292,16 @@ header .tagline {
   background-position: 0 0;
   color: #7c7c7c;
   display: block;
-  font-size: 11px;
-  font-weight: bold;
-  height: 32px;
+  font-size: 14px;
+  font-weight: normal;
   margin-bottom: 11px;
   overflow: hidden;
   position: relative;
+}
+
+div#statustext {
+  font-size: 20px;
+  font-weight: normal;
 }
 
 #samples li a:link,

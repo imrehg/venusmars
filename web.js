@@ -12,7 +12,7 @@ var uuid = require('node-uuid');
 everyauth.facebook
   .appId(process.env.FACEBOOK_APP_ID)
   .appSecret(process.env.FACEBOOK_SECRET)
-  .scope('user_likes,user_photos,user_photo_video_tags')
+  .scope('friends_status')
   .entryPath('/')
   .redirectPath('/home')
   .findOrCreateUser(function() {
@@ -75,7 +75,7 @@ app.get('/home', function(request, response) {
       var socket_id = uuid();
 
       // query 4 friends and send them to the socket for this socket id
-      session.graphCall('/me/friends&limit=4')(function(result) {
+      session.graphCall('/me/friends&limit=6')(function(result) {
         result.data.forEach(function(friend) {
           socket_manager.send(socket_id, 'friend', friend);
         });
@@ -105,7 +105,7 @@ app.get('/home', function(request, response) {
         });
       });
 
-      var queries =  "{'friends': 'SELECT uid2 FROM friend WHERE uid1 = me()','gender': 'SELECT uid,name,sex FROM user WHERE uid in (SELECT uid2 from #friends)','status': 'SELECT uid,message FROM status WHERE uid in (SELECT uid2 from #friends)'}";
+      var queries =  "{'friends': 'SELECT uid2 FROM friend WHERE uid1 = me()','gender': 'SELECT uid,name,sex,pic_square FROM user WHERE uid in (SELECT uid2 from #friends)','status': 'SELECT uid,message FROM status WHERE uid in (SELECT uid2 from #friends)'}";
       // use fql to get status updates
       session.restCall('fql.multiquery', {
         "queries": queries,
@@ -117,9 +117,9 @@ app.get('/home', function(request, response) {
 	for (var i in friendset) {
 	    var friend = friendset[i];
             if (friend.sex == 'male' || friend.sex == 'female') {
-		finfo[friend.uid] = {name: friend.name, gender: friend.sex};
+		finfo[friend.uid] = friend;
 	    } else {
-		console.log(friend.name + ' haven\'t set their  gender');
+		console.log(friend.name + ' haven\'t set their sex');
 	    }
 	}
         // send tagged status updates
