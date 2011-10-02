@@ -51,64 +51,13 @@
         // identify this socket with our auth token
         socket.emit('auth', '<%= socket_id %>');
 
-      <!--   // when a friend is received from the backend, add it to the page -->
-      <!--   socket.on('friend', function(friend) { -->
-      <!--     $('ul#friends').append('                                                                         \ -->
-      <!--       <li>                                                                                           \ -->
-      <!--         <a href="#" onclick="window.open(\'http://www.facebook.com/' + friend.id + '\');">           \ -->
-      <!--           <img src="https://graph.facebook.com/' + friend.id + '/picture" alt="' + friend.name + '"> \ -->
-      <!--           ' + friend.name + '                                                                        \ -->
-      <!--         </a>                                                                                         \ -->
-      <!--       </li>                                                                                          \ -->
-      <!--     '); -->
-      <!--   }); -->
-
-      <!--   // when a photo is received from the backend, add it to the page -->
-      <!--   socket.on('photo', function(photo) { -->
-      <!--     $('ul#photos').append('                                     \ -->
-      <!--       <li style="background-image: url(' + photo.picture + ')"> \ -->
-      <!--         <a href="#" onclick="window.open(\'http://www.facebook.com/' + photo.id + '\');">     \ -->
-      <!--         ' + photo.name + '                                      \ -->
-      <!--         </a>                                                    \ -->
-      <!--       </li>                                                     \ -->
-      <!--     '); -->
-
-      <!--     $('ul#photos li:nth-child(4n+1)').addClass('first-column'); -->
-      <!--   }); -->
-
-      <!--   // when a like is received from the backend, add it to the page -->
-      <!--   socket.on('like', function(like) { -->
-      <!--     $('ul#likes').append('                                   \ -->
-      <!--       <li>                                                   \ -->
-      <!--         <a href="http://www.facebook.com/' + like.id + '">   \ -->
-      <!--           <img src="https://graph.facebook.com/' + like.id + -->
-      <!--           '/picture?type=square" alt="' + like.name + '">    \ -->
-      <!--           ' + like.name + '                                  \ -->
-      <!--         </a>                                                 \ -->
-      <!--       </li>                                                  \ -->
-      <!--     '); -->
-      <!--   }); -->
-
-      <!--   // when a friend is received from the backend, add it to the page -->
-      <!--   socket.on('friend_using_app', function(friend) { -->
-      <!--     $('ul#friends_using_app').append('                                                    \ -->
-      <!--       <li>                                                                                \ -->
-      <!--         <a href="" onclick="window.open(\'http://www.facebook.com/' + friend.uid + '\');"> \ -->
-      <!--           <img src="' + friend.pic_square + '" alt="' + friend.name + '">                 \ -->
-      <!--           ' + friend.name + '                                                             \ -->
-      <!--         </a>                                                                              \ -->
-      <!--       </li>                                                                               \ -->
-      <!--     '); -->
-      <!--   }); -->
-      <!-- }); -->
-
-      var stopped = false;
+      var received = false;
 
       // when a status is received from the backend, add it to the page
       socket.on('friends_status', function(data) {
-        if (stopped == false) {
+        if (received == false) {
           $('#loading').hide();
-          stopped = false;
+          received = false;
         }
         var sex = data.sender.sex;
         $('ul#'+sex).append(' \
@@ -141,25 +90,6 @@
       <p id="picture" style="background-image: url(https://graph.facebook.com/me/picture?type=normal&access_token=<%= token %>)"></p>
       <div>
         <h1>Welcome, <strong><%= user.name %></strong></h1>
-        <!-- <p class="tagline"> -->
-        <!--   This is your app -->
-        <!--   <a href="<%= app.link %>"><%= app.name %></a> -->
-        <!-- </p> -->
-        <!-- <div id="share-app"> -->
-        <!--   <p>Share your app:</p> -->
-        <!--   <ul> -->
-        <!--     <li> -->
-        <!--       <a href="#" class="facebook-button" onclick="popup('http://www.facebook.com/dialog/feed?redirect_uri=<%= redirect %>&display=popup&app_id=<%= app.id %>', 'Post to Wall', 580, 400);"> -->
-        <!--         <span class="plus">Post to Wall</span> -->
-        <!--       </a> -->
-        <!--     </li> -->
-        <!--     <li> -->
-        <!--     <a href="#" class="facebook-button speech-bubble" onclick="popup('https://www.facebook.com/dialog/send?redirect_uri=<%= redirect %>&display=popup&app_id=<%= app.id %>&link=<%= home %>', 'Send', 580, 400);"> -->
-        <!--         <span class="speech-bubble">Send to Friends</span> -->
-        <!--       </a> -->
-        <!--     </li> -->
-        <!--   </ul> -->
-        <!-- </div> -->
         <div id="loading">Please wait, loading...</div>
       </div>
     </header>
@@ -178,66 +108,5 @@
 
     </section>
 
-    <!--   <p>Welcome to your Facebook app, running on <span>heroku</span>!</p> -->
-    <!--   <a href="http://devcenter.heroku.com/articles/facebook" class="button">Learn How to Edit This App</a> -->
-    <!-- </section> -->
-
-    <!-- <section id="samples" class="clearfix"> -->
-    <!--   <h1>Examples of the Facebook Graph API</h1> -->
-
-    <!--   <div class="list"> -->
-    <!--     <h3>A few of your friends</h3> -->
-    <!--     <ul id="friends"></ul> -->
-    <!--   </div> -->
-
-    <!--   <div class="list inline"> -->
-    <!--     <h3>Recent photos</h3> -->
-    <!--     <ul id="photos"></ul> -->
-    <!--   </div> -->
-
-    <!--   <div class="list"> -->
-    <!--     <h3>Things you like</h3> -->
-    <!--     <ul id="likes"></ul> -->
-    <!--   </div> -->
-
-    <!--   <div class="list"> -->
-    <!--     <h3>Friends using this app</h3> -->
-    <!--     <ul id="friends_using_app"></ul> -->
-    <!--   </div> -->
-
-    <!--   <div class="list"> -->
-    <!--     <h3>Friends' status updates</h3> -->
-    <!--     <ul id="friends_status"></ul> -->
-    <!--   </div> -->
-
-    <!-- </section> -->
-
-    <!-- <section id="guides" class="clearfix"> -->
-    <!--   <h1>Learn More About Heroku &amp; Facebook Apps</h1> -->
-    <!--   <ul> -->
-    <!--     <li> -->
-    <!--       <a href="http://www.heroku.com/" class="icon heroku">Heroku</a> -->
-    <!--       <p>Learn more about <a href="http://www.heroku.com/">Heroku</a>, or read developer docs in the Heroku <a href="http://devcenter.heroku.com/">Dev Center</a>.</p> -->
-    <!--     </li> -->
-    <!--     <li> -->
-    <!--       <a href="http://developers.facebook.com/docs/guides/web/" class="icon websites">Websites</a> -->
-    <!--       <p> -->
-    <!--         Drive growth and engagement on your site with -->
-    <!--         Facebook Login and Social Plugins. -->
-    <!--       </p> -->
-    <!--     </li> -->
-    <!--     <li> -->
-    <!--       <a href="http://developers.facebook.com/docs/guides/mobile/" class="icon mobile-apps">Mobile Apps</a> -->
-    <!--       <p> -->
-    <!--         Integrate with our core experience by building apps -->
-    <!--         that operate within Facebook. -->
-    <!--       </p> -->
-    <!--     </li> -->
-    <!--     <li> -->
-    <!--       <a href="http://developers.facebook.com/docs/guides/canvas/" class="icon apps-on-facebook">Apps on Facebook</a> -->
-    <!--       <p>Let users find and connect to their friends in mobile apps and games.</p> -->
-    <!--     </li> -->
-    <!--   </ul> -->
-    <!-- </section> -->
   </body>
 </html>

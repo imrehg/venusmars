@@ -17,7 +17,7 @@ everyauth.facebook
   .redirectPath('/home')
   .findOrCreateUser(function() {
     return({});
-  })
+  });
 
 // create an express webserver
 var app = express.createServer(
@@ -73,37 +73,6 @@ app.get('/home', function(request, response) {
 
       // generate a uuid for socket association
       var socket_id = uuid();
-
-      // query 4 friends and send them to the socket for this socket id
-      session.graphCall('/me/friends&limit=6')(function(result) {
-        result.data.forEach(function(friend) {
-          socket_manager.send(socket_id, 'friend', friend);
-        });
-      });
-
-      // query 16 photos and send them to the socket for this socket id
-      session.graphCall('/me/photos&limit=16')(function(result) {
-        result.data.forEach(function(photo) {
-          socket_manager.send(socket_id, 'photo', photo);
-        });
-      });
-
-      // query 4 likes and send them to the socket for this socket id
-      session.graphCall('/me/likes&limit=4')(function(result) {
-        result.data.forEach(function(like) {
-          socket_manager.send(socket_id, 'like', like);
-        });
-      });
-
-      // use fql to get a list of my friends that are using this app
-      session.restCall('fql.query', {
-        query: 'SELECT uid, name, is_app_user, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1',
-        format: 'json'
-      })(function(result) {
-        result.forEach(function(friend) {
-          socket_manager.send(socket_id, 'friend_using_app', friend);
-        });
-      });
 
       var queries =  "{'friends': 'SELECT uid2 FROM friend WHERE uid1 = me()','gender': 'SELECT uid,name,sex,pic_square FROM user WHERE uid in (SELECT uid2 from #friends)','status': 'SELECT uid,message FROM status WHERE uid in (SELECT uid2 from #friends)'}";
       // use fql to get status updates
