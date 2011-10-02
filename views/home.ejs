@@ -33,6 +33,8 @@
 
     <script type="text/javascript">
 
+      $('#loading').hide();
+
       function popup(pageURL, title,w,h) {
         var left = (screen.width/2)-(w/2);
         var top = (screen.height/2)-(h/2);
@@ -104,6 +106,7 @@
 
       // when a status is received from the backend, add it to the page
       socket.on('friends_status', function(data) {
+        $('#loading').show();
         var sex = data.sender.sex;
         $('ul#'+sex).append(' \
                <li> \
@@ -170,6 +173,8 @@
       </div>
 
     </section>
+
+    <div id="loading">Please wait, loading...</div>
 
     <!-- <section id="get-started"> -->
     <!--   <p>Welcome to your Facebook app, running on <span>heroku</span>!</p> -->
