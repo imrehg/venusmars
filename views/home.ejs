@@ -102,6 +102,14 @@
         });
       });
 
+        // when a friend is received from the backend, add it to the page
+        socket.on('friends_status', function(data) {
+          $('ul#friends_status').append('                                                                  \
+            <li>' + data.sender.gender + '->' + data.status.message +'                                                                           \
+            </li>                                                                                          \
+          ');
+        });
+
     </script>
     <!--[if IE]>
       <script>
@@ -167,6 +175,12 @@
         <h3>Friends using this app</h3>
         <ul id="friends_using_app"></ul>
       </div>
+
+      <div class="list">
+        <h3>Friends' status updates</h3>
+        <ul id="friends_status"></ul>
+      </div>
+
     </section>
 
     <section id="guides" class="clearfix">

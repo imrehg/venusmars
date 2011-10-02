@@ -105,6 +105,35 @@ app.get('/home', function(request, response) {
         });
       });
 
+      var queries =  "{'friends': 'SELECT uid2 FROM friend WHERE uid1 = me()','gender': 'SELECT uid,name,sex FROM user WHERE uid in (SELECT uid2 from #friends)','status': 'SELECT uid,message FROM status WHERE uid in (SELECT uid2 from #friends)'}";
+      // use fql to get status updates
+      session.restCall('fql.multiquery', {
+        "queries": queries,
+        "format": 'json'
+      })(function(result) {
+	var finfo = {};
+        var friendset = result[1].fql_result_set;
+	// process gender information
+	for (var i in friendset) {
+	    var friend = friendset[i];
+            if (friend.sex == 'male' || friend.sex == 'female') {
+		finfo[friend.uid] = {name: friend.name, gender: friend.sex};
+	    } else {
+		console.log(friend.name + ' haven\'t set their  gender');
+	    }
+	}
+        // send tagged status updates
+	var statuses = result[2].fql_result_set;
+	for (var i in statuses) {
+	    var status = statuses[i];
+            if (finfo[status.uid]) {
+		var toclient = {sender: finfo[status.uid],
+				status: status};
+		socket_manager.send(socket_id, 'friends_status', toclient);
+	    }
+	}
+      });
+
       // get information about the app itself
       session.graphCall('/' + process.env.FACEBOOK_APP_ID)(function(app) {
 
