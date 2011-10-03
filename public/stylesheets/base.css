@@ -173,15 +173,15 @@ header .tagline {
 }
 
 #samples div#male {
-  background-color: lightblue;
+  background-color: #B8C4F5;
 }
 
 #samples div#female {
-  background-color: pink;
+  background-color: #F5B8C4;
 }
 
 #samples h3 {
-  color: #646464;
+  color: #343434;
   font-weight: bold;
   font-size: 14px;
   line-height: 29px;
@@ -199,13 +199,15 @@ header .tagline {
 #samples li {
   background-repeat: no-repeat;
   background-position: 0 0;
-  color: #7c7c7c;
+  color: #000;
   display: block;
   font-size: 14px;
   font-weight: normal;
   margin-bottom: 11px;
   overflow: hidden;
   position: relative;
+  border: 1px solid;
+  padding: 5px;
 }
 
 div#statustext {
