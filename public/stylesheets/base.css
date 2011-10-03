@@ -124,11 +124,11 @@ header div div#loading {
   border-top: 1px solid #fff;
 }
 
-#samples div#male {
+#samples div#male ul li {
   background-color: #B8C4F5;
 }
 
-#samples div#female {
+#samples div#female ul li {
   background-color: #F5B8C4;
 }
 
