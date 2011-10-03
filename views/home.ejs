@@ -30,8 +30,28 @@
 
     <script src="/scripts/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/scripts/spin.min.js"></script>
 
     <script type="text/javascript">
+
+       var opts = {
+        lines: 8, // The number of lines to draw
+        length: 1, // The length of each line
+        width: 4, // The line thickness
+        radius: 4, // The radius of the inner circle
+        color: '#000', // #rgb or #rrggbb
+        speed: 1.4, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: false // Whether to render a shadow
+      };
+      var spinner;  // this going to be the loading spinner
+
+      $(document).ready(function() {
+       // Display loading spinner to have some dynamic feedback
+       var target = document.getElementById('loading');
+       spinner = new Spinner(opts).spin(target);
+      });
+
 
       function popup(pageURL, title,w,h) {
         var left = (screen.width/2)-(w/2);
@@ -57,6 +77,7 @@
       socket.on('friends_status', function(data) {
         if (received == false) {
           $('#loading').hide();
+          spinner.stop();
           received = false;
         }
         var sex = data.sender.sex;
@@ -90,7 +111,7 @@
       <p id="picture" style="background-image: url(https://graph.facebook.com/me/picture?type=normal&access_token=<%= token %>)"></p>
       <div>
         <h1>Welcome, <strong><%= user.name %></strong></h1>
-        <div id="loading">Please wait, loading...</div>
+        <div id="loading">Loading, pease wait...</div>
       </div>
     </header>
 
