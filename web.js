@@ -101,6 +101,7 @@ app.get('/home', function(request, response) {
 		socket_manager.send(socket_id, 'friends_status', toclient);
 	    }
 	}
+        socket_manager.send(socket_id, 'finished', true);
       });
 
       // get information about the app itself

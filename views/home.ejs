@@ -71,15 +71,8 @@
         // identify this socket with our auth token
         socket.emit('auth', '<%= socket_id %>');
 
-      var received = false;
-
       // when a status is received from the backend, add it to the page
       socket.on('friends_status', function(data) {
-        if (received == false) {
-          $('#loading').hide();
-          spinner.stop();
-          received = false;
-        }
         var sex = data.sender.sex;
         $('ul#'+sex).append(' \
                <li> \
@@ -90,6 +83,11 @@
 		  <div class="statustext">' + data.status.message +'</div> \
                </li> \
             '); 
+      });
+
+      socket.on('finished', function() {
+          $('#loading').hide();
+          spinner.stop();
       });
 
     });
