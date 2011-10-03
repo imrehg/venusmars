@@ -80,7 +80,7 @@
 		    <img src="' + data.sender.pic_square + '" alt="' + data.sender.name + '"> \
 		    ' + data.sender.name + '\
 		  </a>\
-		  <div class="statustext">' + data.status.message +'</div> \
+		  <div class="statustext" onclick="window.open(\'https://www.facebook.com/'+data.status.status_id+'\');">' + data.status.message +'</div> \
                </li> \
             '); 
       });

@@ -74,7 +74,7 @@ app.get('/home', function(request, response) {
       // generate a uuid for socket association
       var socket_id = uuid();
 
-      var queries =  "{'friends': 'SELECT uid2 FROM friend WHERE uid1 = me()','gender': 'SELECT uid,name,sex,pic_square FROM user WHERE uid in (SELECT uid2 from #friends)','status': 'SELECT uid,message FROM status WHERE uid in (SELECT uid2 from #friends)'}";
+      var queries =  "{'friends': 'SELECT uid2 FROM friend WHERE uid1 = me()','gender': 'SELECT uid,name,sex,pic_square FROM user WHERE uid in (SELECT uid2 from #friends)','status': 'SELECT uid,status_id,message FROM status WHERE uid in (SELECT uid2 from #friends)'}";
       // use fql to get status updates
       session.restCall('fql.multiquery', {
         "queries": queries,
